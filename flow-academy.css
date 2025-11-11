@@ -1,0 +1,196 @@
+/* Flow Academy - Text Animation Styles */
+/* Required CSS for data-split and load animations */
+
+/* ===================================
+   Text Split Base Styles
+   =================================== */
+
+/* Line wrapper - creates overflow container */
+.single-line-wrap {
+  overflow: hidden;
+  display: block;
+  position: relative;
+}
+
+/* Individual line - starts below viewport */
+.single-line {
+  display: block;
+  transform: translateY(120%);
+  will-change: transform;
+}
+
+/* Individual letter/character */
+.single-letter {
+  display: inline-block;
+  will-change: transform, opacity;
+}
+
+/* Legacy support for old class names */
+.line {
+  display: block;
+  overflow: hidden;
+}
+
+.word {
+  display: inline-block;
+}
+
+.letter {
+  display: inline-block;
+}
+
+/* ===================================
+   Load Animation Initial States
+   =================================== */
+
+/* Hide hero section initially (will fade in on load) */
+.section {
+  opacity: 0;
+}
+
+/* Alternative selectors for hero sections */
+[data-hero],
+[data-load-section] {
+  opacity: 0;
+}
+
+/* Navigation hidden above viewport initially */
+.nav-row,
+nav[data-nav] {
+  transform: translateY(-100%);
+  will-change: transform;
+}
+
+/* Paragraphs in load wrap start below */
+[data-load-items="wrap-p"] p {
+  transform: translateY(120%);
+  will-change: transform;
+}
+
+/* Buttons in load wrap start transparent */
+[data-load-items="wrap-buttons"] .button,
+[data-load-items="wrap-buttons"] [data-button] {
+  opacity: 0;
+  will-change: opacity;
+}
+
+/* Reveal items start hidden and slightly below */
+[data-load-items="reveal"] {
+  opacity: 0;
+  transform: translateY(20%);
+  will-change: opacity, transform;
+}
+
+/* ===================================
+   Scroll Animation Initial States
+   =================================== */
+
+/* Elements that animate on scroll start with lines hidden */
+[data-reveal="scroll"] .single-line {
+  transform: translateY(120%);
+}
+
+/* ===================================
+   Optional: Letter Delay Animation
+   =================================== */
+
+/* Smooth transitions for letters with delay */
+[data-letters-delay] .single-letter {
+  transition: all 0.3s ease;
+  /* transition-delay is set dynamically via JS */
+}
+
+/* ===================================
+   Performance Optimizations
+   =================================== */
+
+/* Reduce repaints during animations */
+.single-line,
+.single-letter,
+[data-load-items="reveal"],
+.nav-row {
+  backface-visibility: hidden;
+  -webkit-font-smoothing: subpixel-antialiased;
+}
+
+/* ===================================
+   Responsive Adjustments (Optional)
+   =================================== */
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  .single-line,
+  .single-letter,
+  [data-load-items="reveal"],
+  .nav-row,
+  [data-load-items="wrap-p"] p,
+  [data-load-items="wrap-buttons"] .button {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+  /* Slightly faster animations on mobile */
+  .single-line-wrap {
+    /* Ensure proper clipping on mobile */
+    -webkit-mask-image: -webkit-linear-gradient(white, white);
+  }
+}
+
+/* ===================================
+   Debug Mode (Optional)
+   =================================== */
+
+/* Add data-debug attribute to body to visualize wrappers */
+[data-debug] .single-line-wrap {
+  outline: 1px dashed rgba(255, 0, 0, 0.3);
+}
+
+[data-debug] .single-line {
+  background: rgba(0, 255, 0, 0.1);
+}
+
+[data-debug] .single-letter {
+  outline: 1px dashed rgba(0, 0, 255, 0.3);
+}
+
+/* ===================================
+   Utility Classes
+   =================================== */
+
+/* Disable animation for specific elements */
+.no-animate .single-line {
+  transform: none !important;
+}
+
+.no-animate [data-load-items="reveal"],
+.no-animate [data-load-items="wrap-p"] p,
+.no-animate [data-load-items="wrap-buttons"] .button {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+/* Force show (useful for editing/debugging) */
+.force-show {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+/* ===================================
+   Print Styles
+   =================================== */
+
+@media print {
+  /* Show all content in print */
+  .section,
+  [data-hero],
+  .single-line,
+  [data-load-items="reveal"],
+  [data-load-items="wrap-p"] p,
+  [data-load-items="wrap-buttons"] .button {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
